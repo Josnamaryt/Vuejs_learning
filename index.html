@@ -8,20 +8,27 @@
     <script src="https://unpkg.com/vue@3"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg "
+    :class="navbarClasses">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">My vue</a>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li v-for="(page , index) in pages" class="nav-item" :key="index">
               <a 
               class="nav-link" 
+              :class="{active: activePage == index}"
               aria-current="page" 
               :href="page.Link.url"
               :title="'This goes to ${page.Link.text} page'"
-              @click="activePage = index"
+              @click.prevent="activePage = index"
               >{{ page.Link.text }}</a>
             </li>
           </ul>
+          <form class="d-flex">
+            <button 
+            class ="btn btn-primary"
+            @click.prevent="useDarkNavbar = !useDarkNavbar" >Toggle </button>
+          </form>
         </div>
       </nav>
       
@@ -33,9 +40,28 @@
     <script>
     
         Vue.createApp({
+          computed:{
+            navbarClasses(){
+              return{
+                      'navbar-light ' : !this.useDarkNavbar, 
+                      'bg-light' : !this.useDarkNavabr,
+                      'navbar-dark ' : this.useDarkNavbar, 
+                      'bg-dark' : this.useDarkNavabr
+                    }
+            }
+
+          },
             data(){
                 return{
                     activePage: 0,
+                    useDarkNavbar: false,
+                    navbarClasses:{
+                      'navbar-light ' : !this.useDarkNavbar, 
+                      'bg-light' : !this.useDarkNavabr,
+                      'navbar-dark ' : this.useDarkNavbar, 
+                      'bg-dark' : this.useDarkNavabr
+
+                    },
                     pages: [
                     {
                     Link: {text: 'Home', url: 'index.html'}, 
