@@ -8,8 +8,8 @@
     <script src="https://unpkg.com/vue@3"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg "
-    :class="navbarClasses">
+    <nav 
+    :class="['navbar-${theme}', 'bg-${theme}', 'navbar', 'navbar-expand-lg']">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">My vue</a>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -27,7 +27,7 @@
           <form class="d-flex">
             <button 
             class ="btn btn-primary"
-            @click.prevent="useDarkNavbar = !useDarkNavbar" >Toggle </button>
+            @click.prevent="changeTheme()">Toggle </button>
           </form>
         </div>
       </nav>
@@ -40,28 +40,11 @@
     <script>
     
         Vue.createApp({
-          computed:{
-            navbarClasses(){
-              return{
-                      'navbar-light ' : !this.useDarkNavbar, 
-                      'bg-light' : !this.useDarkNavabr,
-                      'navbar-dark ' : this.useDarkNavbar, 
-                      'bg-dark' : this.useDarkNavabr
-                    }
-            }
-
-          },
-            data(){
+         data(){
                 return{
                     activePage: 0,
-                    useDarkNavbar: false,
-                    navbarClasses:{
-                      'navbar-light ' : !this.useDarkNavbar, 
-                      'bg-light' : !this.useDarkNavabr,
-                      'navbar-dark ' : this.useDarkNavbar, 
-                      'bg-dark' : this.useDarkNavabr
-
-                    },
+                    theme: 'light',
+                    
                     pages: [
                     {
                     Link: {text: 'Home', url: 'index.html'}, 
@@ -81,7 +64,18 @@
                     
                     ]
                 };
+            },
+            methods: {
+              changeTheme(){
+                let theme = 'light';
+
+                if (this.theme == 'light'){
+                  theme = 'dark';
+                }
+                this.theme = theme;
+              }
             }
+
         }).mount('body');
     </script>
 </body>
